@@ -2,6 +2,11 @@
 
 Odoo Json-rpc Client for Flutter.
 
+## Requirements
+
+- Dart `>=2.7.0 <3.0.0`
+- Flutter `>=1.12.13+hotfix.5 <2.0.0`
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
