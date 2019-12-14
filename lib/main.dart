@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dio Network Request',
+      title: 'Odoo Json-rpc Client for Flutter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(title: 'Dio Network Request'),
+      home: HomePage(title: 'Odoo Json-rpc Client for Flutter'),
     );
   }
 }
