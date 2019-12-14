@@ -7,15 +7,23 @@ Odoo Json-rpc Client for Flutter.
 - Dart `>=2.7.0 <3.0.0`
 - Flutter `>=1.12.13+hotfix.5 <2.0.0`
 
-## Getting Started
+###### How to check `sdk` version
 
-This project is a starting point for a Flutter application.
+```
+$ flutter doctor --verbose
 
-A few resources to get you started if this is your first Flutter project:
+[✓] Flutter (Channel stable, v1.12.13+hotfix.5, on Linux, locale en_IN)
+    • Flutter version 1.12.13+hotfix.5 at /flutter/sdk/path
+    • Framework revision 27321ebbad (3 days ago), 2019-12-10 18:15:01 -0800
+    • Engine revision 2994f7e1e6
+    • Dart version 2.7.0
+```
+###### How to set `sdk` version
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Go to `pubspec.yaml`
+- Add following snippet
+```yaml
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.12.13+hotfix.5 <2.0.0"
+```
