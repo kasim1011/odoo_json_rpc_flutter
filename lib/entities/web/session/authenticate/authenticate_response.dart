@@ -1,5 +1,5 @@
 import 'package:odoo_json_rpc_flutter/entities/error/odoo_error.dart';
-import 'package:odoo_json_rpc_flutter/entities/web.session.authenticate/authenticate_result.dart';
+import 'package:odoo_json_rpc_flutter/entities/web/session/authenticate/authenticate_result.dart';
 
 class AuthenticateResponse {
   var jsonRpc = '2.0';

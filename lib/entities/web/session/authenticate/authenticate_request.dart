@@ -1,4 +1,4 @@
-import 'package:odoo_json_rpc_flutter/entities/web.session.authenticate/authenticate_params.dart';
+import 'package:odoo_json_rpc_flutter/entities/web/session/authenticate/authenticate_params.dart';
 
 class AuthenticateRequest {
   var jsonRpc = '2.0';

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:device_info/device_info.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
@@ -50,7 +51,7 @@ class DioFactory {
   DioFactory._instance() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: Config.BaseUrl,
+        baseUrl: Config.HostUrl,
         headers: {
           HttpHeaders.userAgentHeader: _deviceName,
         },
@@ -74,5 +75,17 @@ class DioFactory {
         },
       ));
     }
+    if (Config.SelfSignedCert) {
+      final httpClientAdapter = _dio.httpClientAdapter as DefaultHttpClientAdapter;
+      httpClientAdapter.onHttpClientCreate = _onHttpClientCreate;
+    }
+  }
+
+  dynamic _onHttpClientCreate(HttpClient client) {
+    client.badCertificateCallback = _badCertificateCallback;
+  }
+
+  bool _badCertificateCallback(X509Certificate cert, String host, int port) {
+    return true;
   }
 }
