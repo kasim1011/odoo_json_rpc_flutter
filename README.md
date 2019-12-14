@@ -9,7 +9,7 @@ Odoo Json-rpc Client for Flutter.
 
 #### How to check `sdk` version
 
-```shell script
+```
 $ flutter doctor --verbose
 
 [✓] Flutter (Channel stable, v1.12.13+hotfix.5, on Linux, locale en_IN)
