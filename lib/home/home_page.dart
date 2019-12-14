@@ -48,8 +48,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _authenticate() async {
-    final OnError onError = (final DioError error) {
-      print(error.toString());
+    final OnError onError = (DioError error) {
       if (error.type != DioErrorType.RESPONSE &&
           error.type != DioErrorType.CANCEL) {
         setState(() {
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage> {
     };
 
     final OnResponse<AuthenticateResponse> onResponse =
-        (final AuthenticateResponse response) {
+        (AuthenticateResponse response) {
       if (!response.isSuccessful) {
         print('${response.errorMessage}');
         setState(() {
@@ -115,7 +114,6 @@ class _HomePageState extends State<HomePage> {
             'response failed with ${response.statusCode}:${response.statusMessage}');
       }
     } catch (e, stackTrace) {
-      print(e);
       print(stackTrace);
     }
   }

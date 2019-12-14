@@ -12,18 +12,15 @@ class Odoo {
   const Odoo._();
 
   static Future<bool> authenticate({
-    @required final String login,
-    @required final String password,
-    @required final String db,
-    @required final OnError onError,
-    @required final OnResponse<AuthenticateResponse> onResponse,
+    @required String login,
+    @required String password,
+    @required String db,
+    @required OnError onError,
+    @required OnResponse<AuthenticateResponse> onResponse,
   }) async {
     if (login == null ||
-        login.trim().isEmpty ||
         password == null ||
-        password.trim().isEmpty ||
-        db == null ||
-        db.trim().isEmpty) {
+        db == null) {
       print('please provide non-null values for parameters');
       if (!kReleaseMode) {
         print('login: $login, password: $password, db: $db');
@@ -42,15 +39,11 @@ class Odoo {
       'web/session/authenticate',
       data: request.toJson(),
     )
-        .catchError((final e) {
+        .catchError((e, stackTrace) {
+      print(stackTrace);
       if (e is DioError) {
         if (onError != null) {
           onError(e);
-        }
-      } else {
-        if (!kReleaseMode) {
-          final message = e.toString();
-          debugPrint(message, wrapWidth: 768);
         }
       }
     });
