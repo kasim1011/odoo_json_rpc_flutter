@@ -7,7 +7,7 @@ Odoo Json-rpc Client for Flutter.
 - Dart `>=2.7.0 <3.0.0`
 - Flutter `>=1.12.13+hotfix.5 <2.0.0`
 
-###### How to check `sdk` version
+##### How to check `sdk` version
 
 ```
 $ flutter doctor --verbose
@@ -18,7 +18,7 @@ $ flutter doctor --verbose
     • Engine revision 2994f7e1e6
     • Dart version 2.7.0
 ```
-###### How to set `sdk` version
+##### How to set `sdk` version
 
 - Go to `pubspec.yaml`
 - Add following snippet
