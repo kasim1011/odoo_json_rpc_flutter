@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:odoo_json_rpc_flutter/callback/odoo_callback.dart';
 import 'package:odoo_json_rpc_flutter/config/dio_factory.dart';
+import 'package:odoo_json_rpc_flutter/entities/web/database/list/list_response.dart';
 import 'package:odoo_json_rpc_flutter/entities/web/session/authenticate/authenticate_response.dart';
+import 'package:odoo_json_rpc_flutter/entities/web/session/check/check_response.dart';
 import 'package:odoo_json_rpc_flutter/entities/web/webclient/versionInfo/version_info_response.dart';
 import 'package:odoo_json_rpc_flutter/odoo.dart';
 
@@ -37,13 +39,48 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onPressed: () {
-                _versionInfo();
+                _listDb();
               },
             ),
           ),
           Text(response)
         ],
       ),
+    );
+  }
+
+  void _listDb() async {
+    final OnError onError = (DioError error) {
+      if (error.type != DioErrorType.RESPONSE &&
+          error.type != DioErrorType.CANCEL) {
+        setState(() {
+          this.response = 'Server unreachable';
+        });
+      } else {
+        setState(() {
+          this.response = error.message;
+        });
+      }
+    };
+
+    final OnResponse<ListResponse> onResponse =
+        (ListResponse response) {
+      if (!response.isSuccessful) {
+        print('${response.errorMessage}');
+        setState(() {
+          this.response = response.errorMessage;
+        });
+        return;
+      }
+      setState(() {
+        this.response = '_listDb ${response.result}';
+      });
+      _versionInfo();
+    };
+
+    await Odoo.list(
+      onError: onError,
+      onResponse: onResponse,
     );
   }
 
@@ -108,13 +145,48 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         this.response = 'authenticated';
       });
-      _searchRead();
+      _check();
     };
 
     await Odoo.authenticate(
       login: 'admin',
       password: 'admin',
       db: '754946-12-0-5876e0-all',
+      onError: onError,
+      onResponse: onResponse,
+    );
+  }
+
+  void _check() async {
+    final OnError onError = (DioError error) {
+      if (error.type != DioErrorType.RESPONSE &&
+          error.type != DioErrorType.CANCEL) {
+        setState(() {
+          this.response = 'Server unreachable';
+        });
+      } else {
+        setState(() {
+          this.response = error.message;
+        });
+      }
+    };
+
+    final OnResponse<CheckResponse> onResponse =
+        (CheckResponse response) {
+      if (!response.isSuccessful) {
+        print('${response.errorMessage}');
+        setState(() {
+          this.response = response.errorMessage;
+        });
+        return;
+      }
+      setState(() {
+        this.response = '_check successful';
+      });
+      _searchRead();
+    };
+
+    await Odoo.check(
       onError: onError,
       onResponse: onResponse,
     );

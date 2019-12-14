@@ -4,9 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:odoo_json_rpc_flutter/callback/odoo_callback.dart';
 import 'package:odoo_json_rpc_flutter/config/dio_factory.dart';
+import 'package:odoo_json_rpc_flutter/entities/web/database/list/list_request.dart';
+import 'package:odoo_json_rpc_flutter/entities/web/database/list/list_response.dart';
 import 'package:odoo_json_rpc_flutter/entities/web/session/authenticate/authenticate_params.dart';
 import 'package:odoo_json_rpc_flutter/entities/web/session/authenticate/authenticate_request.dart';
 import 'package:odoo_json_rpc_flutter/entities/web/session/authenticate/authenticate_response.dart';
+import 'package:odoo_json_rpc_flutter/entities/web/session/check/check_request.dart';
+import 'package:odoo_json_rpc_flutter/entities/web/session/check/check_response.dart';
 import 'package:odoo_json_rpc_flutter/entities/web/webclient/versionInfo/version_info_request.dart';
 import 'package:odoo_json_rpc_flutter/entities/web/webclient/versionInfo/version_info_response.dart';
 
@@ -14,6 +18,7 @@ class Odoo {
   Odoo._();
 
   static int _jsonRpcId = 0;
+
   static int _nextJsonRpcId() {
     _jsonRpcId = _jsonRpcId + 1;
     return _jsonRpcId;
@@ -23,7 +28,7 @@ class Odoo {
     @required OnError onError,
     @required OnResponse<VersionInfoResponse> onResponse,
   }) async {
-    final request = VersionInfoRequest();
+    final request = VersionInfoRequest()..id = _nextJsonRpcId();
     final response = await DioFactory.dio
         .post<Map<String, dynamic>>(
       'web/webclient/version_info',
@@ -41,6 +46,34 @@ class Odoo {
       return false;
     }
     final responseData = VersionInfoResponse.fromJsonMap(response.data ?? {});
+    if (onResponse != null) {
+      onResponse(responseData);
+    }
+    return true;
+  }
+
+  static Future<bool> list({
+    @required OnError onError,
+    @required OnResponse<ListResponse> onResponse,
+  }) async {
+    final request = ListRequest()..id = _nextJsonRpcId();
+    final response = await DioFactory.dio
+        .post<Map<String, dynamic>>(
+      'web/database/list',
+      data: request.toJson(),
+    )
+        .catchError((e, stackTrace) {
+      print(stackTrace);
+      if (e is DioError) {
+        if (onError != null) {
+          onError(e);
+        }
+      }
+    });
+    if (response == null) {
+      return false;
+    }
+    final responseData = ListResponse.fromJsonMap(response.data ?? {});
     if (onResponse != null) {
       onResponse(responseData);
     }
@@ -85,6 +118,34 @@ class Odoo {
       return false;
     }
     final responseData = AuthenticateResponse.fromJsonMap(response.data ?? {});
+    if (onResponse != null) {
+      onResponse(responseData);
+    }
+    return true;
+  }
+
+  static Future<bool> check({
+    @required OnError onError,
+    @required OnResponse<CheckResponse> onResponse,
+  }) async {
+    final request = CheckRequest()..id = _nextJsonRpcId();
+    final response = await DioFactory.dio
+        .post<Map<String, dynamic>>(
+      'web/session/check',
+      data: request.toJson(),
+    )
+        .catchError((e, stackTrace) {
+      print(stackTrace);
+      if (e is DioError) {
+        if (onError != null) {
+          onError(e);
+        }
+      }
+    });
+    if (response == null) {
+      return false;
+    }
+    final responseData = CheckResponse.fromJsonMap(response.data ?? {});
     if (onResponse != null) {
       onResponse(responseData);
     }
