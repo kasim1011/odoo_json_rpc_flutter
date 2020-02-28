@@ -1,6 +1,6 @@
 # odoo_json_rpc_flutter
 
-Odoo Json-rpc Client for Flutter.
+Odoo Json-rpc Client for Flutter [Work in progress].
 
 ## Requirements
 
